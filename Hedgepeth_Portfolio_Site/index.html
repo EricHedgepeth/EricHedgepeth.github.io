@@ -1,0 +1,365 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Learning, Design, and Technology portfolio of Eric Hedgepeth, M.Ed. student at UNC Charlotte (Training and Development).">
+<style>body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Eric Hedgepeth LDT Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Young+Serif&family=Public+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: blueprint-style single page. Sticky section nav, a narrow reading column, and a "spec sheet" sidebar on wide screens. */
+:root{
+  --paper:#f3f5f4;
+  --surface:#ffffff;
+  --ink:#16252a;
+  --muted:#52646a;
+  --line:#cdd8d6;
+  --accent:#0f6b63;
+  --accent-soft:#dcecea;
+  --signal:#b5651d;
+  --display:"Young Serif", Georgia, "Times New Roman", serif;
+  --body:"Public Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono:"IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0f1a1c; --surface:#16252a; --ink:#e6eeec; --muted:#9bb0ad;
+    --line:#2b3f42; --accent:#5cc2b6; --accent-soft:#183a38; --signal:#e39a55;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0f1a1c; --surface:#16252a; --ink:#e6eeec; --muted:#9bb0ad;
+  --line:#2b3f42; --accent:#5cc2b6; --accent-soft:#183a38; --signal:#e39a55;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+body{background:var(--paper);color:var(--ink);font-family:var(--body);font-size:1rem;line-height:1.65;
+  background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);
+  background-size:48px 48px;background-attachment:fixed}
+body::before{content:"";position:fixed;inset:0;background:var(--paper);opacity:.86;z-index:-1;pointer-events:none}
+a{color:var(--accent);text-underline-offset:3px}
+a:focus-visible,button:focus-visible{outline:2px solid var(--signal);outline-offset:3px;border-radius:2px}
+
+nav.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:10;background:var(--surface);border-bottom:1px solid var(--line)}
+nav.top .in{max-width:68rem;margin:0 auto;padding-inline:1rem;display:flex;gap:1.25rem;align-items:center;overflow-x:auto;white-space:nowrap}
+nav.top .mark{font-family:var(--display);font-size:1.05rem;padding-block:.75rem;color:var(--ink);text-decoration:none;margin-right:auto}
+nav.top a.l{font-size:.85rem;font-weight:500;color:var(--muted);text-decoration:none;padding-block:.75rem;border-bottom:2px solid transparent}
+nav.top a.l:hover{color:var(--ink);border-bottom-color:var(--accent)}
+
+main{max-width:68rem;margin:0 auto;padding-inline:1rem;padding-block:2.5rem 4rem;display:flex;flex-direction:column;gap:4.5rem}
+section{scroll-margin-top:4rem}
+.eyebrow{font-family:var(--mono);font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin:0 0 .5rem}
+h1,h2,h3{font-family:var(--display);font-weight:400;text-wrap:balance;margin:0;line-height:1.15}
+h1{font-size:clamp(2.2rem,5vw,3.4rem)}
+h2{font-size:clamp(1.6rem,3vw,2.1rem);margin-bottom:1rem}
+h3{font-size:1.25rem}
+p{margin:0}
+.prose{max-width:40rem;display:flex;flex-direction:column;gap:1rem}
+.lede{font-size:1.15rem;color:var(--ink)}
+.muted{color:var(--muted)}
+
+.todo{display:inline-block;font-family:var(--mono);font-size:.72rem;color:var(--signal);border:1px dashed var(--signal);border-radius:3px;padding:.05rem .4rem;vertical-align:middle;letter-spacing:.02em}
+
+/* Intro */
+.intro{display:grid;grid-template-columns:minmax(0,1fr) 17rem;gap:2.5rem;align-items:start}
+@media (max-width:760px){.intro{grid-template-columns:minmax(0,1fr)}}
+.photo{aspect-ratio:4/5;max-width:100%;width:100%;border:1.5px dashed var(--line);background:var(--surface);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.5rem;text-align:center;padding:1rem}
+.photo .ini{font-family:var(--display);font-size:3.5rem;color:var(--accent)}
+.headshot{display:block;width:100%;max-width:100%;height:auto;aspect-ratio:1/1;object-fit:cover;border:1px solid var(--line);background:var(--surface)}
+.spec{background:var(--surface);border:1px solid var(--line);margin-top:1rem}
+.spec dl{margin:0;display:grid;grid-template-columns:auto minmax(0,1fr)}
+.spec dt,.spec dd{margin:0;padding:.55rem .8rem;border-top:1px solid var(--line);font-size:.85rem}
+.spec dt{font-family:var(--mono);font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);padding-top:.7rem}
+.spec dl > :nth-child(1),.spec dl > :nth-child(2){border-top:0}
+.spec dd{overflow-wrap:anywhere}
+.links{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:.5rem}
+.btn{display:inline-flex;align-items:center;gap:.4rem;font-size:.88rem;font-weight:600;padding:.55rem .95rem;border:1.5px solid var(--accent);color:var(--accent);text-decoration:none;background:transparent}
+.btn.solid{background:var(--accent);color:var(--surface)}
+.btn.ph{border-style:dashed;border-color:var(--muted);color:var(--muted);cursor:default}
+
+.philo{border-left:3px solid var(--accent);padding-left:1.25rem;max-width:40rem}
+.philo blockquote{margin:0;font-family:var(--display);font-size:1.35rem;line-height:1.4}
+
+.goals{display:grid;grid-template-columns:repeat(auto-fit,minmax(14rem,1fr));gap:1rem;margin-top:1.5rem}
+.goal{background:var(--surface);border:1px solid var(--line);padding:1rem 1.1rem;display:flex;flex-direction:column;gap:.35rem}
+.goal .h{font-family:var(--mono);font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+
+/* Program */
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(12rem,1fr));gap:0;border:1px solid var(--line);background:var(--surface);margin-top:1.5rem}
+.facts div{padding:.9rem 1rem;border-right:1px solid var(--line);border-bottom:1px solid var(--line);display:flex;flex-direction:column;gap:.2rem}
+.facts .k{font-family:var(--mono);font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.facts .v{font-weight:600}
+
+/* Projects */
+.course{background:var(--accent-soft);padding:1.25rem 1.4rem;max-width:44rem;display:flex;flex-direction:column;gap:.6rem}
+.projects{display:flex;flex-direction:column;gap:1.5rem;margin-top:2rem}
+.proj{display:grid;grid-template-columns:4.5rem minmax(0,1fr);gap:1.25rem;background:var(--surface);border:1px solid var(--line);padding:1.4rem}
+@media (max-width:560px){.proj{grid-template-columns:minmax(0,1fr)}}
+.proj .code{font-family:var(--mono);font-size:.78rem;color:var(--accent);border:1px solid var(--accent);height:max-content;padding:.35rem .4rem;text-align:center;width:max-content}
+.proj .body{display:flex;flex-direction:column;gap:.75rem;min-width:0}
+.proj .tags{display:flex;flex-wrap:wrap;gap:.4rem}
+.tag{font-family:var(--mono);font-size:.7rem;padding:.12rem .45rem;background:var(--accent-soft);color:var(--ink)}
+.refl{border-top:1px solid var(--line);padding-top:.75rem;display:flex;flex-direction:column;gap:.5rem}
+.refl .h{font-family:var(--mono);font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+
+/* Standards */
+.std-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(20rem,1fr));gap:1.5rem;margin-top:1.5rem}
+.std{background:var(--surface);border:1px solid var(--line);display:flex;flex-direction:column}
+.std header{padding:1rem 1.2rem;border-bottom:1px solid var(--line);display:flex;flex-direction:column;gap:.25rem}
+.std ol{list-style:none;margin:0;padding:0;counter-reset:s}
+.std li{counter-increment:s;display:grid;grid-template-columns:2rem minmax(0,1fr);gap:.5rem;padding:.65rem 1.2rem;border-top:1px solid var(--line);font-size:.92rem}
+.std li:first-child{border-top:0}
+.std li::before{content:counter(s,decimal-leading-zero);font-family:var(--mono);font-size:.75rem;color:var(--muted);padding-top:.15rem}
+.std .ev{display:block;font-family:var(--mono);font-size:.72rem;color:var(--accent);margin-top:.15rem}
+.std .ev.none{color:var(--muted)}
+
+footer{max-width:68rem;margin:0 auto;padding-inline:1rem;padding-block:1.5rem 2.5rem;border-top:1px solid var(--line);font-size:.82rem;color:var(--muted)}
+</style>
+</head>
+<body>
+
+
+<nav class="top" aria-label="Portfolio sections">
+  <div class="in">
+    <a class="mark" href="#home">Eric Hedgepeth</a>
+    <a class="l" href="#home">Introduction</a>
+    <a class="l" href="#program">Program</a>
+    <a class="l" href="#foundations">Course Projects</a>
+    <a class="l" href="#design">Instructional Design</a>
+    <a class="l" href="#standards">Standards</a>
+  </div>
+</nav>
+
+<main>
+
+<!-- ============ TITLE PAGE ============ -->
+<section id="home">
+  <div class="intro">
+    <div class="prose">
+      <p class="eyebrow">Learning, Design, and Technology Portfolio</p>
+      <h1>Eric Hedgepeth</h1>
+      <p class="lede">I build the systems people learn from. For the last several years that has meant student information systems, degree audits, and the reports advisors and students use to plan an education. I am now completing an M.Ed. in Learning, Design, and Technology so the design decisions behind those systems rest on learning science, not guesswork.</p>
+      <p>I work as an IT Analyst/Programmer II in UNC Charlotte's Office of OneIT. Training has run through my whole career. In the U.S. Air Force I taught explosive safety operations to 150 personnel as an egress systems technician, and in pharmaceutical manufacturing I rebuilt new operator orientation after spotting training gaps, which cut ingredient waste by 12% per lot. Later, as a VA Certifying Official, I helped more than 1,300 student veterans use their education benefits. I hold a B.A. and an M.S. in Computer Science with a concentration in AI and robotics, and I was first author on an NSF-funded, peer-reviewed study of the ASSISTments online math learning platform. Outside of work I volunteer with elementary robotics through FIRST LEGO League.</p>
+      <div class="links">
+        <a class="btn solid" href="files/Eric_Hedgepeth_Resume.pdf" target="_blank" rel="noopener">Resume (PDF)</a>
+        <a class="btn" href="https://www.linkedin.com/in/eric-hedgepeth-21649342" target="_blank" rel="noopener">LinkedIn</a>
+        <a class="btn" href="https://github.com/EricHedgepeth" target="_blank" rel="noopener">GitHub: EricHedgepeth</a>
+        <a class="btn" href="https://github.com/EricTheTator" target="_blank" rel="noopener">GitHub: EricTheTator</a>
+        <a class="btn" href="https://par.nsf.gov/biblio/10578705" target="_blank" rel="noopener">Published research</a>
+      </div>
+    </div>
+
+    <aside>
+      <img class="headshot" src="photo.jpg" alt="Eric Hedgepeth, professional headshot" width="200" height="200">
+      <div class="spec">
+        <dl>
+          <dt>Email</dt><dd>ehedgepe@charlotte.edu</dd>
+          <dt>Location</dt><dd>Charlotte, NC area</dd>
+          <dt>Program</dt><dd>M.Ed., LDT, Training and Development</dd>
+          <dt>Focus</dt><dd>Learning engineering, adaptive learning systems, workforce training</dd>
+        </dl>
+      </div>
+    </aside>
+  </div>
+
+  <div style="margin-top:3rem;display:flex;flex-direction:column;gap:1.25rem">
+    <p class="eyebrow">My philosophy of the field</p>
+    <div class="philo">
+      <blockquote>Learning, design, and technology is the planned work of building the conditions under which people learn. Technology lives inside that design. It is never the design itself.</blockquote>
+    </div>
+    <div class="prose">
+      <p>Every few years a new tool arrives and is described as the thing that will finally fix education. Every time, the tool turns out to be only as good as the instruction around it. Dale's work on learning experiences and Reiser's history of the field both point the same direction: the field matured when it moved from media to process. Moore's idea of transactional distance adds that the gap between what an instructor intends and what a learner understands is a design problem, not a geography problem.</p>
+      <p>My own work has taught me that people learn from far more than their courses. A degree audit is instruction. So is a benefits letter, a registration screen, or an onboarding checklist. When those artifacts are confusing, people make worse decisions, and no amount of good classroom teaching repairs that. I want to design those systems on purpose, starting from three questions that do not change when the tools do: who is learning, what do they need to be able to do, and how will we know it worked?</p>
+    </div>
+  </div>
+
+  <div style="margin-top:2.5rem">
+    <p class="eyebrow">Professional goals</p>
+    <div class="goals">
+      <div class="goal"><span class="h">Near term</span><p>Apply instructional design and performance improvement methods to the technical training and job aids used by university staff.</p></div>
+      <div class="goal"><span class="h">During the program</span><p>Build a body of work aligned to IBSTPI and ISPI standards, with at least one product that pairs a training solution with real performance data.</p></div>
+      <div class="goal"><span class="h">Long term</span><p>Work in learning engineering, designing adaptive and data-informed learning systems whose choices can be explained in terms of how people learn.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PROGRAM ============ -->
+<section id="program">
+  <p class="eyebrow">Background and education</p>
+  <h2>M.Ed. in Learning, Design, and Technology</h2>
+  <div class="prose">
+    <p>The Learning, Design, and Technology program in UNC Charlotte's Cato College of Education prepares designers to analyze learning and performance problems, design and develop instruction across delivery formats, and evaluate whether that instruction worked. Coursework blends learning theory, instructional design models, media and technology selection, and evaluation, and it ends with a capstone portfolio organized by professional standards.</p>
+    <p>I chose the Training and Development concentration because most of my career has been spent inside organizations, building tools that working adults have to learn on the job. This concentration focuses on workplace learning and human performance technology: identifying the real cause of a performance gap, deciding whether training is even the right fix, and measuring results in terms the organization cares about.</p>
+  </div>
+  <div class="facts">
+    <div><span class="k">Degree</span><span class="v">Master of Education</span></div>
+    <div><span class="k">Program</span><span class="v">Learning, Design, and Technology</span></div>
+    <div><span class="k">Concentration</span><span class="v">Training and Development</span></div>
+    <div><span class="k">Standards</span><span class="v">IBSTPI and ISPI</span></div>
+    <div><span class="k">Institution</span><span class="v">UNC Charlotte</span></div>
+    <div><span class="k">Expected completion</span><span class="v">May 2028</span></div>
+  </div>
+  <p class="muted" style="margin-top:1rem;font-size:.9rem">Prior degrees: M.S. in Computer Science, AI and robotics concentration (2026); B.A. in Computer Science.</p>
+
+  <div class="course" style="margin-top:2rem">
+    <p class="eyebrow" style="margin:0">Published research</p>
+    <p><strong>Using ASSISTments for college math: Evaluating the effectiveness of supports and transferability of findings</strong></p>
+    <p class="muted" style="font-size:.9rem">Hedgepeth, E. (first author), Holl-Cross, C., Smalenberger, M., Smalenberger, K., and McCulloch, A. W. (2024). Kent State University. NSF Award 2216036.</p>
+    <p>A peer-reviewed study of how online homework supports, including video and text hints, affected student performance in college algebra, and whether those findings carry over to new settings. This work is where I first saw how much the design choices inside a learning system shape what students actually do.</p>
+    <div class="links"><a class="btn" href="https://par.nsf.gov/biblio/10578705" target="_blank" rel="noopener">View in NSF Public Access Repository</a></div>
+  </div>
+</section>
+
+<!-- ============ COURSE PROJECTS ============ -->
+<section id="foundations">
+  <p class="eyebrow">Course projects</p>
+  <h2>ELDT 6100: Foundations of Learning, Design, and Technology</h2>
+  <div class="course">
+    <p class="muted" style="font-size:.9rem">Fall 2026, Dr. Daniel Maxwell</p>
+    <p>The first course in the program surveys the history, theories, and practice of the field. Students define the field in their own words, compare the major learning theories, examine the dispositions a professional designer needs, and propose an application project that puts theory and a design model to work on a real problem. The course also launches this portfolio.</p>
+  </div>
+
+  <div class="projects">
+
+    <article class="proj">
+      <span class="code">P1</span>
+      <div class="body">
+        <h3>Definition Paper: Defining Learning, Design, and Technology</h3>
+        <p>A two-page APA 7 paper giving my personal definition of the field, the rationale behind it from course readings (Dale, Reiser, Moore, Larreamendy-Joerns and Leinhardt, and Shearer), and where I see myself in the field.</p>
+        <div class="tags"><span class="tag">APA 7</span><span class="tag">Field history</span><span class="tag">Learning theory</span></div>
+        <div class="links"><a class="btn" href="files/Hedgepeth_Definition_Paper.pdf" target="_blank" rel="noopener">View paper (PDF)</a></div>
+        <div class="refl">
+          <span class="h">Reflection</span>
+          <p>Writing this paper forced me to say plainly what I had only felt: the design decision matters more than the delivery device. Coming from software, I tended to start with the tool. The readings moved me toward starting with the learner and the gap I am trying to close. In hindsight, I would have checked every source against the reading list earlier instead of at the end, and I would have tested my one-sentence definition on someone outside the field before committing to it.</p>
+        </div>
+      </div>
+    </article>
+
+    <article class="proj">
+      <span class="code">P2</span>
+      <div class="body">
+        <h3>Comparing the Three Primary Learning Theories</h3>
+        <p>A three-way Venn diagram comparing behaviorism, cognitivism, and constructivism. Each theory keeps its defining traits, such as reinforcement, schema and cognitive load, and social negotiation, while the overlaps show what they share, like learning through experience, an active learner, and feedback that supports transfer.</p>
+        <div class="tags"><span class="tag">Behaviorism</span><span class="tag">Cognitivism</span><span class="tag">Constructivism</span><span class="tag">Visual comparison</span></div>
+        <div class="links"><a class="btn" href="files/Hedgepeth_Learning_Theories_Venn_Diagram.pdf" target="_blank" rel="noopener">View diagram (PDF)</a></div>
+        <div class="refl">
+          <span class="h">Reflection</span>
+          <p>The hard part of this diagram was not listing traits. It was deciding where each idea actually belongs. Placing something like feedback in the center made me admit that the theories agree more in practice than their labels suggest, while things like the role of the instructor really do split them. That sorting is what later helped me pick cognitive load theory for my application project. If I did it again, I would add one example from my own work under each theory so the diagram shows how I would use it, not only what it says.</p>
+        </div>
+      </div>
+    </article>
+
+    <article class="proj">
+      <span class="code">P3</span>
+      <div class="body">
+        <h3>Application Project Proposal: Schedule Build Coding Tutorial</h3>
+        <p>A proposal for a 15-minute self-paced Articulate 360 tutorial that teaches department scheduling coordinators how to code distance education and cross-listed sections on the Registrar's course template. It includes a learner persona, an ABCD objective at the Apply level, a rationale grounded in cognitive load theory, and a development plan using the Successive Approximation Model (SAM).</p>
+        <div class="tags"><span class="tag">ABCD objective</span><span class="tag">Cognitive load theory</span><span class="tag">SAM</span><span class="tag">Articulate 360</span></div>
+        <div class="links"><a class="btn" href="files/Hedgepeth_Application_Project_Proposal.pdf" target="_blank" rel="noopener">View proposal (PDF)</a></div>
+        <div class="refl">
+          <span class="h">Reflection</span>
+          <p>This was the first time I chose a learning theory on purpose instead of by habit. Coordinators use these codes only a few times a year, so the problem is less about memorizing and more about working memory under deadline pressure. That pointed me to chunking and worked examples. Writing the persona also kept me honest; designing for a real coordinator with 100 sections and other deadlines is different from designing for myself. In hindsight, I would tie the 4 of 5 mastery level to actual error data from past schedule builds so the target is evidence-based, not just reasonable.</p>
+        </div>
+      </div>
+    </article>
+
+    <article class="proj">
+      <span class="code">P4</span>
+      <div class="body">
+        <h3>Professional Dispositions Self-Assessment</h3>
+        <p>A reflection on my dispositional strengths and growth areas across the program's framework. I identified ethics, professional identity and continuous growth, collaboration, and advocacy as strengths, and impact and leadership as areas to develop.</p>
+        <div class="tags"><span class="tag">Self-assessment</span><span class="tag">Professional identity</span></div>
+        <div class="links"><a class="btn" href="files/Hedgepeth_Dispositions_Self_Assessment.pdf" target="_blank" rel="noopener">View self-assessment (PDF)</a></div>
+        <div class="refl">
+          <span class="h">Reflection</span>
+          <p>My advocacy instinct comes straight from certifying benefits for student veterans, where a confusing letter could cost someone a semester. Naming that helped me see it as a professional disposition, not just a personality trait. The harder part was the growth areas. I am used to building things quietly and letting the work speak, and this assessment made clear that a designer also has to show impact and lead others through change. I plan to track that deliberately in later courses.</p>
+        </div>
+      </div>
+    </article>
+
+  </div>
+</section>
+
+<!-- ============ OTHER COURSE WORK ============ -->
+<section id="design">
+  <p class="eyebrow">Additional course work</p>
+  <h2>EIST 6110: Instructional Design</h2>
+  <div class="course">
+    <p>This course works through a full instructional design project in stages, using a systematic design model. Part B covers the analysis that every later design decision rests on: needs, learners, context, technology, goals, tasks, and objectives.</p>
+  </div>
+
+  <div class="projects">
+    <article class="proj">
+      <span class="code">ID-B</span>
+      <div class="body">
+        <h3>Building Course Sections in Banner: A Training Module for Schedule Builders</h3>
+        <p>The analysis phase for a 60-minute hands-on training module in the Banner test instance. Section-build errors make up roughly 40% of the procedural error tickets the Registrar's technical team receives each term, and they reach students as wrong fees, wrong formats, and courses that count incorrectly in DegreeWorks. The analysis covers comparative, felt, expressed, anticipated, and critical incident needs, a performance gap table, learner and contextual analysis, a topic and procedural task analysis with a learning task map, and measurable objectives tied to a 50% reduction in section-build tickets within two terms.</p>
+        <div class="tags"><span class="tag">Needs analysis</span><span class="tag">Performance gap</span><span class="tag">Task analysis</span><span class="tag">Learner and context analysis</span><span class="tag">Banner 9</span></div>
+        <div class="links"><a class="btn" href="files/Hedgepeth_EIST6110_Part_B_Analysis.pdf" target="_blank" rel="noopener">View analysis (PDF)</a></div>
+        <div class="refl">
+          <span class="h">Reflection</span>
+          <p>I have fixed these errors from the technical side for years, but this analysis made me ask why they keep happening. The answer was mostly a knowledge and skill gap: schedule builders copy last term's sections without knowing what each field controls. It also made me separate instructional and non-instructional fixes. Training is the main solution, but a scheduled query that flags mismatched codes catches what training misses. The biggest lesson was about evidence. Several figures in this draft are planning estimates, and before design starts I need to confirm them with a ticket report and a short survey so the 50% target is measured against a real baseline.</p>
+        </div>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- ============ STANDARDS ============ -->
+<section id="standards">
+  <p class="eyebrow">Professional standards</p>
+  <h2>Standards this portfolio is built around</h2>
+  <div class="prose">
+    <p>Every LDT portfolio aligns to the IBSTPI Instructional Designer Competencies. My Training and Development concentration adds the ISPI Performance Technology Standards. By the end of the program, each standard below will link to at least one product and a short justification. Evidence from my first semester is marked; "early" means the work addresses the standard in a plan or analysis but has not yet been carried out.</p>
+  </div>
+
+  <div class="std-grid">
+    <div class="std">
+      <header>
+        <p class="eyebrow" style="margin:0">Set one, required</p>
+        <h3>IBSTPI Instructional Designer Competencies</h3>
+        <p class="muted" style="font-size:.85rem">Grouped by the five IBSTPI domains</p>
+      </header>
+      <ol>
+        <li><div>Professional Foundations<span class="ev">Evidence: P1 Definition Paper, P2 Learning Theories, P4 Dispositions</span></div></li>
+        <li><div>Planning and Analysis<span class="ev">Evidence: ID-B Analysis</span></div></li>
+        <li><div>Design and Development<span class="ev">Evidence: P3 Proposal, ID-B objectives and task map</span></div></li>
+        <li><div>Evaluation and Implementation<span class="ev">Early: ID-B transfer and evaluation plan</span></div></li>
+        <li><div>Management<span class="ev none">Evidence to come</span></div></li>
+      </ol>
+    </div>
+
+    <div class="std">
+      <header>
+        <p class="eyebrow" style="margin:0">Set two, Training and Development</p>
+        <h3>ISPI Performance Technology Standards</h3>
+        <p class="muted" style="font-size:.85rem">Ten standards for performance improvement work</p>
+      </header>
+      <ol>
+        <li><div>Focus on results and outcomes<span class="ev">Evidence: ID-B ticket reduction target</span></div></li>
+        <li><div>Take a systems view<span class="ev">Evidence: ID-B effects on registration, billing, and DegreeWorks</span></div></li>
+        <li><div>Add value<span class="ev none">Evidence to come</span></div></li>
+        <li><div>Work in partnership with clients and stakeholders<span class="ev">Early: P3 Savvy Start with Registrar staff</span></div></li>
+        <li><div>Determine need or opportunity<span class="ev">Evidence: ID-B needs analysis</span></div></li>
+        <li><div>Determine cause<span class="ev">Evidence: ID-B performance gap</span></div></li>
+        <li><div>Design solutions<span class="ev">Evidence: ID-B solution options, P3 Proposal</span></div></li>
+        <li><div>Ensure solution conformity and feasibility<span class="ev">Early: ID-B context and technology analysis</span></div></li>
+        <li><div>Implement solutions<span class="ev none">Evidence to come</span></div></li>
+        <li><div>Evaluate results and impact<span class="ev">Early: ID-B baseline comparison plan</span></div></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>Portfolio draft, fall 2026. Built and maintained across the UNC Charlotte LDT M.Ed. program.</footer>
+
+</body>
+</html>
