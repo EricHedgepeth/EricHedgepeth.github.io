@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Schedule Build Coding Tutorial</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700&family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: course player. Thin top bar with progress, one slide card, spreadsheet-style template rows as the working surface. */
+:root{
+  --bg:#f3f5f2; --surface:#ffffff; --fg:#1d2a24; --muted:#5a6a62; --line:#d3ddd7;
+  --accent:#005035; --accent-ink:#ffffff; --gold:#8a7a45; --cell:#f8faf8; --hl:#fff4cc;
+  --ok:#1f7a45; --ok-bg:#e5f4ea; --bad:#a3322a; --bad-bg:#fbe9e7;
+  --display:"Source Serif 4", Georgia, serif; --body:"Source Sans 3", "Segoe UI", Arial, sans-serif; --mono:"JetBrains Mono", Consolas, monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#121815; --surface:#1b2420; --fg:#e4ece7; --muted:#a2b2a9; --line:#33433b;
+  --accent:#4fb487; --accent-ink:#0d1a14; --gold:#cbb979; --cell:#202b26; --hl:#4a3f12;
+  --ok:#7fd3a0; --ok-bg:#163526; --bad:#f19a8f; --bad-bg:#3d1c19; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#121815; --surface:#1b2420; --fg:#e4ece7; --muted:#a2b2a9; --line:#33433b;
+  --accent:#4fb487; --accent-ink:#0d1a14; --gold:#cbb979; --cell:#202b26; --hl:#4a3f12;
+  --ok:#7fd3a0; --ok-bg:#163526; --bad:#f19a8f; --bad-bg:#3d1c19; color-scheme:dark}
+body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:16px;line-height:1.55}
+.wrap{max-width:920px;margin:0 auto;padding-block:20px 40px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:grid;gap:16px}
+.note{font-size:13px;color:var(--muted);border:1px dashed var(--line);border-radius:6px;padding:8px 12px}
+.bar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 16px}
+.bar .course{font-size:12px;letter-spacing:.08em;text-transform:uppercase;font-weight:700;color:var(--gold)}
+.progress{display:flex;gap:6px}
+.progress span{width:28px;height:6px;border-radius:3px;background:var(--line)}
+.progress span.done{background:var(--accent)}
+.progress span.now{background:var(--gold)}
+.slide{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:24px;display:grid;gap:14px;min-width:0}
+.eyebrow{font-size:12px;letter-spacing:.08em;text-transform:uppercase;font-weight:700;color:var(--muted)}
+h1{font-family:var(--display);font-size:clamp(24px,4vw,32px);line-height:1.2;margin:0;text-wrap:balance}
+h2{font-family:var(--display);font-size:22px;margin:0;text-wrap:balance}
+p{margin:0;max-width:68ch}
+.request{border-left:3px solid var(--gold);background:var(--cell);padding:10px 14px;border-radius:0 6px 6px 0;max-width:68ch}
+.request b{display:block;font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.sheet{overflow-x:auto;border:1px solid var(--line);border-radius:6px}
+table{border-collapse:collapse;font-family:var(--mono);font-size:13px;width:100%;min-width:640px}
+th{background:var(--accent);color:var(--accent-ink);text-align:left;font-weight:500;padding:6px 8px;font-size:12px;white-space:nowrap}
+td{border-top:1px solid var(--line);border-right:1px solid var(--line);padding:4px 6px;background:var(--surface);white-space:nowrap}
+td.key{background:var(--hl)}
+td.given{color:var(--muted)}
+select,input[type=number],input[type=text]{box-sizing:border-box;font:inherit;color:var(--fg);background:var(--cell);border:1px solid var(--line);border-radius:4px;padding:4px 6px;width:100%;min-width:110px}
+input[type=number]{min-width:70px}
+select:focus-visible,input:focus-visible,button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.why{display:grid;gap:6px;padding:12px 14px;background:var(--cell);border-radius:6px}
+.why li{margin-left:4px}
+.why ol{margin:0;padding-left:20px;display:grid;gap:4px}
+.fb{padding:12px 14px;border-radius:6px;display:grid;gap:4px}
+.fb.ok{background:var(--ok-bg);color:var(--ok)}
+.fb.bad{background:var(--bad-bg);color:var(--bad)}
+.fb strong{font-size:15px}
+.fb p{color:var(--fg)}
+.actions{display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;align-items:center}
+button{font:inherit;font-weight:600;border-radius:6px;padding:9px 18px;cursor:pointer;border:1px solid var(--accent)}
+button.primary{background:var(--accent);color:var(--accent-ink)}
+button.ghost{background:transparent;color:var(--accent)}
+button:disabled{opacity:.45;cursor:not-allowed}
+.score{font-family:var(--display);font-size:40px;color:var(--accent)}
+.res{display:grid;gap:8px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+.res div{border:1px solid var(--line);border-radius:6px;padding:12px 14px}
+@media (prefers-reduced-motion:no-preference){.slide{animation:in .25s ease-out}@keyframes in{from{transform:translateY(4px)}to{transform:none}}}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <div class="note" role="note">Design prototype for SAM iterative design (v0.1). Field values are written as plain labels and will be replaced with the template's exact code values after subject matter expert review. Final build will be in Articulate Storyline 360.</div>
+  <div class="bar">
+    <span class="course">Schedule Build Coding Tutorial</span>
+    <div class="progress" id="progress" aria-hidden="true"></div>
+  </div>
+  <main class="slide" id="slide" aria-live="polite"></main>
+</div>
+
+<script>
+const CAMPUS=["","Main campus","Distance Education (online) campus"];
+const METHOD=["","Face-to-face","Hybrid","Online"];
+const ATTR=["","None","Hybrid attribute","Distance education attribute"];
+const COLS=["Subject","Course","Sect","Campus","Instructional method","DE attribute"];
+let i=0, scores={};
+
+function sel(id,opts,val,dis){return `<select id="${id}" ${dis?'disabled':''} aria-label="${id}">${opts.map(o=>`<option ${o===val?'selected':''} value="${o}">${o||'Select...'}</option>`).join('')}</select>`}
+function row(r,cells){return `<tr>${cells.map(c=>`<td class="${c.cls||''}">${c.html}</td>`).join('')}</tr>`}
+function head(cols){return `<tr>${cols.map(c=>`<th scope="col">${c}</th>`).join('')}</tr>`}
+const v=id=>document.getElementById(id).value;
+
+const slides=[
+{type:"intro",render:()=>`
+  <div class="eyebrow">Start here</div>
+  <h1>Code it right the first time</h1>
+  <p>Every term, a few template rows come back for correction. Most of them are online, hybrid, or cross-listed sections where the delivery fields do not agree. A wrong row can bill students the wrong fees or hide a section from students searching for online classes.</p>
+  <div class="request"><b>The one rule to remember</b>Campus, instructional method, and distance education attribute must all describe the same delivery type.</div>
+  <p>This short module shows one worked example, then gives you two sections to try, then a cross-listed pair. Feedback appears after each check.</p>`},
+
+{type:"worked",render:()=>`
+  <div class="eyebrow">Worked example</div>
+  <h2>A fully online section</h2>
+  <div class="request"><b>Department request</b>HIST 2160-080: taught fully online. No on-campus meetings.</div>
+  <div class="sheet"><table>${head(COLS)}${row(0,[{html:"HIST",cls:"given"},{html:"2160",cls:"given"},{html:"080",cls:"given"},{html:"Distance Education (online) campus",cls:"key"},{html:"Online",cls:"key"},{html:"Distance education attribute",cls:"key"}])}</table></div>
+  <div class="why"><strong>How the coordinator decided</strong><ol>
+    <li>The request says no on-campus meetings, so the delivery type is fully online.</li>
+    <li>Fully online means the online campus, not main campus.</li>
+    <li>The instructional method matches: Online.</li>
+    <li>Online sections carry the distance education attribute.</li>
+    <li>Check: all three highlighted fields say "online." The row is consistent.</li></ol></div>`},
+
+{type:"practice",id:"p1",render:()=>`
+  <div class="eyebrow">Your turn: partly done</div>
+  <h2>A hybrid section</h2>
+  <div class="request"><b>Department request</b>PSYC 1101-H01: meets on campus every Tuesday; Thursday sessions are online.</div>
+  <p>Campus is already filled in. Choose the instructional method and attribute.</p>
+  <div class="sheet"><table>${head(COLS)}${row(0,[{html:"PSYC",cls:"given"},{html:"1101",cls:"given"},{html:"H01",cls:"given"},{html:sel("campus",CAMPUS,"Main campus",true)},{html:sel("method",METHOD)},{html:sel("attr",ATTR)}])}</table></div>
+  <div id="fb"></div>`,
+ check(){const m=v("method"),a=v("attr");
+  if(m==="Hybrid"&&a==="Hybrid attribute")return[1,"Correct.","The section has required on-campus meetings, so it keeps the main campus and uses the hybrid method and attribute."];
+  if(m==="Online"||a==="Distance education attribute")return[0,"Not quite.","Online coding is only for sections with no required on-campus meetings. This one meets on campus every Tuesday, so it is hybrid. Coding it as online could charge students distance education fees."];
+  return[0,"Not quite.","Half the meetings are online, so this is not face-to-face. Use the hybrid method and the hybrid attribute."];}},
+
+{type:"practice",id:"p2",render:()=>`
+  <div class="eyebrow">Your turn: on your own</div>
+  <h2>Last term's row, this term's request</h2>
+  <div class="request"><b>Department request</b>MATH 1100-001 is moving fully online this term. Last term it met on campus.</div>
+  <p>The row was copied from last term. Fix whatever needs fixing.</p>
+  <div class="sheet"><table>${head(COLS)}${row(0,[{html:"MATH",cls:"given"},{html:"1100",cls:"given"},{html:"001",cls:"given"},{html:sel("campus",CAMPUS,"Main campus")},{html:sel("method",METHOD,"Face-to-face")},{html:sel("attr",ATTR,"None")}])}</table></div>
+  <div id="fb"></div>`,
+ check(){const c=v("campus"),m=v("method"),a=v("attr");
+  if(c.startsWith("Distance")&&m==="Online"&&a==="Distance education attribute")return[1,"Correct.","All three fields now describe a fully online section. Copying last term's row is the most common source of this error."];
+  if(m==="Online"&&c==="Main campus")return[0,"Almost.","The method is right, but the campus still says main campus. An online section left on main campus can be billed incorrectly and may not appear in online class searches."];
+  return[0,"Not quite.","The section is fully online now. Change all three fields: online campus, Online method, and the distance education attribute."];}},
+
+{type:"practice",id:"p3",render:()=>`
+  <div class="eyebrow">Cross-listed sections</div>
+  <h2>Two courses, one room</h2>
+  <div class="request"><b>Department request</b>ENGL 3155-001 and WGST 3155-001 meet together, face-to-face, in a room that seats 35.</div>
+  <p>Give both rows the same group identifier, set the group maximum, and split the seats between the two sections.</p>
+  <div class="sheet"><table>${head(["Subject","Course","Sect","Delivery","Cross-list group","Section max","Group max"])}
+   ${row(0,[{html:"ENGL",cls:"given"},{html:"3155",cls:"given"},{html:"001",cls:"given"},{html:"Face-to-face",cls:"given"},{html:`<input type="text" id="g1" value="EW" aria-label="ENGL group identifier">`},{html:`<input type="number" id="m1" aria-label="ENGL section max">`},{html:`<input type="number" id="gm" aria-label="Group max">`}])}
+   ${row(1,[{html:"WGST",cls:"given"},{html:"3155",cls:"given"},{html:"001",cls:"given"},{html:"Face-to-face",cls:"given"},{html:`<input type="text" id="g2" aria-label="WGST group identifier">`},{html:`<input type="number" id="m2" aria-label="WGST section max">`},{html:"(same group)",cls:"given"}])}
+  </table></div>
+  <div id="fb"></div>`,
+ check(){const g1=v("g1").trim().toUpperCase(),g2=v("g2").trim().toUpperCase(),gm=+v("gm"),m1=+v("m1"),m2=+v("m2");
+  if(!g1||g1!==g2)return[0,"Check the group identifier.","Both rows need the same identifier. A row with a different or blank identifier is not linked to its partner."];
+  if(gm!==35)return[0,"Check the group maximum.","The group maximum should equal the room cap, 35. A blank or larger group maximum can let the room overfill."];
+  if(!m1||!m2)return[0,"Check the section maximums.","Each section needs its own maximum."];
+  if(m1+m2>gm)return[0,"Check the section maximums.",`Together the sections promise ${m1+m2} seats, but the room only holds 35. Split the seats so the section maximums add up to no more than the group maximum.`];
+  return[1,"Correct.","Both rows share a group identifier, the group is capped at the room size, and the section maximums together fit inside the group maximum."];}},
+
+{type:"end",render:()=>{const n=Object.values(scores).filter(Boolean).length;return`
+  <div class="eyebrow">Wrap-up</div>
+  <h2>Practice complete</h2>
+  <div class="score">${n} of 3</div>
+  <p>${n===3?"All three correct on the first try.":"Review the feedback on any you missed, then try them again."} In the full tutorial, a scored check of five new sections comes next. You pass with 4 of 5 correct.</p>
+  <div class="res">
+    <div><strong>Quick reference</strong><p>The full tutorial links a two-page walkthrough you can download, print, and keep next to the template.</p></div>
+    <div><strong>Come back anytime</strong><p>Revisit this module right before each schedule build. It takes about 15 minutes.</p></div>
+  </div>`}}
+];
+
+function draw(){
+  const s=slides[i];
+  document.getElementById("slide").innerHTML=s.render()+`<div class="actions">
+    <button class="ghost" id="back" ${i===0?'disabled':''}>Back</button>
+    ${s.check?`<button class="primary" id="chk">Check my answer</button>`:''}
+    <button class="primary" id="next" ${s.check&&!(s.id in scores)?'hidden':''}>${i===slides.length-1?'Start over':'Next'}</button></div>`;
+  document.getElementById("progress").innerHTML=slides.map((_,k)=>`<span class="${k<i?'done':k===i?'now':''}"></span>`).join('');
+  document.getElementById("back").onclick=()=>{i--;draw()};
+  document.getElementById("next").onclick=()=>{if(i===slides.length-1){i=0;scores={}}else i++;draw();window.scrollTo(0,0)};
+  if(s.check)document.getElementById("chk").onclick=()=>{
+    const [ok,t,msg]=s.check();
+    if(!(s.id in scores))scores[s.id]=!!ok;
+    document.getElementById("fb").innerHTML=`<div class="fb ${ok?'ok':'bad'}" role="status"><strong>${t}</strong><p>${msg}</p></div>`;
+    document.getElementById("next").hidden=false;
+  };
+}
+draw();
+</script>
+
+</body>
+</html>
